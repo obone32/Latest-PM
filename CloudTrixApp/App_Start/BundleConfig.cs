@@ -9,6 +9,7 @@ namespace CloudTrixApp
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/jquery-ui.cs",
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -30,12 +31,15 @@ namespace CloudTrixApp
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/jquery-ui.css",
-                      "~/Content/jquery.ui*"));
+                      "~/Content/jquery.ui*",
+                      "~/Scripts/AppJquery/DateTimePicker/bootstrap-datepicker.min.css"));
             bundles.Add(new ScriptBundle("~/bundles/ApplicationJquery").Include(
-               "~/Scripts/AppJquery/InvoiceJQ.js",
-                "~/Scripts/AppJquery/Select2.js"));
+                "~/Scripts/AppJquery/InvoiceJQ.js",
+                "~/Scripts/AppJquery/Select2.js",
+                "~/Scripts/AppJquery/DateTimePicker/bootstrap-datepicker.js"));
+
         }
     }
 }
- 
- 
+
+
