@@ -301,6 +301,10 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Properties\PublishProfiles\CloudTRIX.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\AppJquery\DateTimePicker\bootstrap-datepicker.js" />
+    <Content Include="Scripts\AppJquery\DateTimePicker\bootstrap-datepicker.min.css" />
+    <Content Include="Scripts\AppJquery\DateTimePicker\bootstrap-timepicker.min.css" />
+    <Content Include="Scripts\AppJquery\DateTimePicker\bootstrap-timepicker.min.js" />
     <Content Include="Scripts\AppJquery\InvoiceJQ.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

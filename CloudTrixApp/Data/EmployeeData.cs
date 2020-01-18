@@ -88,6 +88,22 @@ namespace CloudTrixApp.Data
                 selectCommand.Parameters.AddWithValue("@SignatureURL", sValue);
             } else {
                 selectCommand.Parameters.AddWithValue("@SignatureURL", DBNull.Value); }
+            if (sField == "User Name")
+            {
+                selectCommand.Parameters.AddWithValue("@UserName", sValue);
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@UserName", DBNull.Value);
+            }
+            if (sField == "Password")
+            {
+                selectCommand.Parameters.AddWithValue("@Password", sValue);
+            }
+            else
+            {
+                selectCommand.Parameters.AddWithValue("@Password", DBNull.Value);
+            }
             if (sField == "Company I D") {
                 selectCommand.Parameters.AddWithValue("@CompanyName", sValue);
             } else {
@@ -156,6 +172,8 @@ namespace CloudTrixApp.Data
                     Employee.Address2 = reader["Address2"] is DBNull ? null : reader["Address2"].ToString();
                     Employee.Salary = System.Convert.ToDecimal(reader["Salary"]);
                     Employee.SignatureURL = reader["SignatureURL"] is DBNull ? null : reader["SignatureURL"].ToString();
+                    Employee.UserName = System.Convert.ToString(reader["UserName"]);
+                    Employee.Password = System.Convert.ToString(reader["Password"]);
                     Employee.CompanyID = System.Convert.ToInt32(reader["CompanyID"]);
                     Employee.AddUserID = System.Convert.ToInt32(reader["AddUserID"]);
                     Employee.AddDate = System.Convert.ToDateTime(reader["AddDate"]);
@@ -211,6 +229,8 @@ namespace CloudTrixApp.Data
                 insertCommand.Parameters.AddWithValue("@SignatureURL", Employee.SignatureURL);
             } else {
                 insertCommand.Parameters.AddWithValue("@SignatureURL", DBNull.Value); }
+            insertCommand.Parameters.AddWithValue("@UserName", Employee.UserName);
+            insertCommand.Parameters.AddWithValue("@Password", Employee.Password);
             insertCommand.Parameters.AddWithValue("@CompanyID", Employee.CompanyID);
             insertCommand.Parameters.AddWithValue("@AddUserID", Employee.AddUserID);
             insertCommand.Parameters.AddWithValue("@AddDate", Employee.AddDate);
@@ -281,6 +301,8 @@ namespace CloudTrixApp.Data
                 updateCommand.Parameters.AddWithValue("@NewSignatureURL", newEmployee.SignatureURL);
             } else {
                 updateCommand.Parameters.AddWithValue("@NewSignatureURL", DBNull.Value); }
+            updateCommand.Parameters.AddWithValue("@NewUserName", newEmployee.UserName);
+            updateCommand.Parameters.AddWithValue("@NewPassword", newEmployee.Password);
             updateCommand.Parameters.AddWithValue("@NewCompanyID", newEmployee.CompanyID);
             updateCommand.Parameters.AddWithValue("@NewAddUserID", newEmployee.AddUserID);
             updateCommand.Parameters.AddWithValue("@NewAddDate", newEmployee.AddDate);
@@ -319,6 +341,8 @@ namespace CloudTrixApp.Data
                 updateCommand.Parameters.AddWithValue("@OldSignatureURL", oldEmployee.SignatureURL);
             } else {
                 updateCommand.Parameters.AddWithValue("@OldSignatureURL", DBNull.Value); }
+            updateCommand.Parameters.AddWithValue("@OldUserName", oldEmployee.UserName);
+            updateCommand.Parameters.AddWithValue("@OldPassword", oldEmployee.Password);
             updateCommand.Parameters.AddWithValue("@OldCompanyID", oldEmployee.CompanyID);
             updateCommand.Parameters.AddWithValue("@OldAddUserID", oldEmployee.AddUserID);
             updateCommand.Parameters.AddWithValue("@OldAddDate", oldEmployee.AddDate);
@@ -389,6 +413,8 @@ namespace CloudTrixApp.Data
                 deleteCommand.Parameters.AddWithValue("@OldSignatureURL", Employee.SignatureURL);
             } else {
                 deleteCommand.Parameters.AddWithValue("@OldSignatureURL", DBNull.Value); }
+            deleteCommand.Parameters.AddWithValue("@OldUserName", Employee.UserName);
+            deleteCommand.Parameters.AddWithValue("@OldPassword", Employee.Password);
             deleteCommand.Parameters.AddWithValue("@OldCompanyID", Employee.CompanyID);
             deleteCommand.Parameters.AddWithValue("@OldAddUserID", Employee.AddUserID);
             deleteCommand.Parameters.AddWithValue("@OldAddDate", Employee.AddDate);

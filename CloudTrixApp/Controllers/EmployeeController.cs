@@ -25,31 +25,36 @@ namespace CloudTrixApp.Controllers
         DataTable dtCompany = new DataTable();
 
         // GET: /Employee/
-        public ActionResult Index(string sortOrder,  
+        public ActionResult Index(string sortOrder,
                                   String SearchField,
                                   String SearchCondition,
                                   String SearchText,
                                   String Export,
                                   int? PageSize,
-                                  int? page, 
+                                  int? page,
                                   string command)
         {
 
-            if (command == "Show All") {
+            if (command == "Show All")
+            {
                 SearchField = null;
                 SearchCondition = null;
                 SearchText = null;
                 Session["SearchField"] = null;
                 Session["SearchCondition"] = null;
-                Session["SearchText"] = null; } 
-            else if (command == "Add New Record") { return RedirectToAction("Create"); } 
-            else if (command == "Export") { Session["Export"] = Export; } 
-            else if (command == "Search" | command == "Page Size") {
-                if (!string.IsNullOrEmpty(SearchText)) {
+                Session["SearchText"] = null;
+            }
+            else if (command == "Add New Record") { return RedirectToAction("Create"); }
+            else if (command == "Export") { Session["Export"] = Export; }
+            else if (command == "Search" | command == "Page Size")
+            {
+                if (!string.IsNullOrEmpty(SearchText))
+                {
                     Session["SearchField"] = SearchField;
                     Session["SearchCondition"] = SearchCondition;
-                    Session["SearchText"] = SearchText; }
-                } 
+                    Session["SearchText"] = SearchText;
+                }
+            }
             if (command == "Page Size") { Session["PageSize"] = PageSize; }
 
             ViewData["SearchFields"] = GetFields((Session["SearchField"] == null ? "Employee I D" : Convert.ToString(Session["SearchField"])));
@@ -71,6 +76,8 @@ namespace CloudTrixApp.Controllers
             ViewData["Address2SortParm"] = sortOrder == "Address2_asc" ? "Address2_desc" : "Address2_asc";
             ViewData["SalarySortParm"] = sortOrder == "Salary_asc" ? "Salary_desc" : "Salary_asc";
             ViewData["SignatureURLSortParm"] = sortOrder == "SignatureURL_asc" ? "SignatureURL_desc" : "SignatureURL_asc";
+            ViewData["UserNameSortParm"] = sortOrder == "UserName_asc" ? "UserName_desc" : "UserName_asc";
+            ViewData["PasswordSortParm"] = sortOrder == "Password_asc" ? "Password_desc" : "Password_asc";
             ViewData["CompanyIDSortParm"] = sortOrder == "CompanyID_asc" ? "CompanyID_desc" : "CompanyID_asc";
             ViewData["AddUserIDSortParm"] = sortOrder == "AddUserID_asc" ? "AddUserID_desc" : "AddUserID_asc";
             ViewData["AddDateSortParm"] = sortOrder == "AddDate_asc" ? "AddDate_desc" : "AddDate_asc";
@@ -91,29 +98,50 @@ namespace CloudTrixApp.Controllers
 
             var Query = from rowEmployee in dtEmployee.AsEnumerable()
                         join rowCompany in dtCompany.AsEnumerable() on rowEmployee.Field<Int32>("CompanyID") equals rowCompany.Field<Int32>("CompanyID")
-                        select new Employee() {
+                        select new Employee()
+                        {
                             EmployeeID = rowEmployee.Field<Int32>("EmployeeID")
-                           ,FirstName = rowEmployee.Field<String>("FirstName")
-                           ,LastName = rowEmployee.Field<String>("LastName")
-                           ,DOB = rowEmployee.Field<DateTime>("DOB")
-                           ,DOJ = rowEmployee.Field<DateTime>("DOJ")
-                           ,Gender = rowEmployee.Field<String>("Gender")
-                           ,EMail = rowEmployee.Field<String>("EMail")
-                           ,Mobile = rowEmployee.Field<String>("Mobile")
-                           ,Address1 = rowEmployee.Field<String>("Address1")
-                           ,Address2 = rowEmployee.Field<String>("Address2")
-                           ,Salary = rowEmployee.Field<Decimal>("Salary")
-                           ,SignatureURL = rowEmployee.Field<String>("SignatureURL")
                            ,
-                            Company = new Company() 
+                            FirstName = rowEmployee.Field<String>("FirstName")
+                           ,
+                            LastName = rowEmployee.Field<String>("LastName")
+                           ,
+                            DOB = rowEmployee.Field<DateTime>("DOB")
+                           ,
+                            DOJ = rowEmployee.Field<DateTime>("DOJ")
+                           ,
+                            Gender = rowEmployee.Field<String>("Gender")
+                           ,
+                            EMail = rowEmployee.Field<String>("EMail")
+                           ,
+                            Mobile = rowEmployee.Field<String>("Mobile")
+                           ,
+                            Address1 = rowEmployee.Field<String>("Address1")
+                           ,
+                            Address2 = rowEmployee.Field<String>("Address2")
+                           ,
+                            Salary = rowEmployee.Field<Decimal>("Salary")
+                            ,
+                            UserName = rowEmployee.Field<String>("UserName")
+                           ,
+                            Password = rowEmployee.Field<String>("Password")
+                           ,
+                            SignatureURL = rowEmployee.Field<String>("SignatureURL")
+                           ,
+                            Company = new Company()
                             {
-                                   CompanyID = rowCompany.Field<Int32>("CompanyID")
-                                  ,CompanyName = rowCompany.Field<String>("CompanyName")
+                                CompanyID = rowCompany.Field<Int32>("CompanyID")
+                                  ,
+                                CompanyName = rowCompany.Field<String>("CompanyName")
                             }
-                           ,AddUserID = rowEmployee.Field<Int32>("AddUserID")
-                           ,AddDate = rowEmployee.Field<DateTime>("AddDate")
-                           ,ArchiveUserID = rowEmployee.Field<Int32?>("ArchiveUserID")
-                           ,ArchiveDate = rowEmployee.Field<DateTime?>("ArchiveDate")
+                           ,
+                            AddUserID = rowEmployee.Field<Int32>("AddUserID")
+                           ,
+                            AddDate = rowEmployee.Field<DateTime>("AddDate")
+                           ,
+                            ArchiveUserID = rowEmployee.Field<Int32?>("ArchiveUserID")
+                           ,
+                            ArchiveDate = rowEmployee.Field<DateTime?>("ArchiveDate")
                         };
 
             switch (sortOrder)
@@ -190,6 +218,18 @@ namespace CloudTrixApp.Controllers
                 case "SignatureURL_asc":
                     Query = Query.OrderBy(s => s.SignatureURL);
                     break;
+                case "UserName_desc":
+                    Query = Query.OrderByDescending(s => s.UserName);
+                    break;
+                case "UserName_asc":
+                    Query = Query.OrderBy(s => s.UserName);
+                    break;
+                case "Password_desc":
+                    Query = Query.OrderByDescending(s => s.Password);
+                    break;
+                case "Password_asc":
+                    Query = Query.OrderBy(s => s.Password);
+                    break;
                 case "CompanyID_desc":
                     Query = Query.OrderByDescending(s => s.Company.CompanyName);
                     break;
@@ -225,7 +265,8 @@ namespace CloudTrixApp.Controllers
                     break;
             }
 
-            if (command == "Export") {
+            if (command == "Export")
+            {
                 GridView gv = new GridView();
                 DataTable dt = new DataTable();
                 dt.Columns.Add("Employee I D", typeof(string));
@@ -240,6 +281,8 @@ namespace CloudTrixApp.Controllers
                 dt.Columns.Add("Address2", typeof(string));
                 dt.Columns.Add("Salary", typeof(string));
                 dt.Columns.Add("Signature U R L", typeof(string));
+                dt.Columns.Add("User Name", typeof(string));
+                dt.Columns.Add("Password", typeof(string));
                 dt.Columns.Add("Company I D", typeof(string));
                 dt.Columns.Add("Add User I D", typeof(string));
                 dt.Columns.Add("Add Date", typeof(string));
@@ -249,22 +292,24 @@ namespace CloudTrixApp.Controllers
                 {
                     dt.Rows.Add(
                         item.EmployeeID
-                       ,item.FirstName
-                       ,item.LastName
-                       ,item.DOB
-                       ,item.DOJ
-                       ,item.Gender
-                       ,item.EMail
-                       ,item.Mobile
-                       ,item.Address1
-                       ,item.Address2
-                       ,item.Salary
-                       ,item.SignatureURL
-                       ,item.Company.CompanyName
-                       ,item.AddUserID
-                       ,item.AddDate
-                       ,item.ArchiveUserID
-                       ,item.ArchiveDate
+                       , item.FirstName
+                       , item.LastName
+                       , item.DOB
+                       , item.DOJ
+                       , item.Gender
+                       , item.EMail
+                       , item.Mobile
+                       , item.Address1
+                       , item.Address2
+                       , item.Salary
+                       , item.SignatureURL
+                       , item.UserName
+                       , item.Password
+                       , item.Company.CompanyName
+                       , item.AddUserID
+                       , item.AddDate
+                       , item.ArchiveUserID
+                       , item.ArchiveDate
                     );
                 }
                 gv.DataSource = dt;
@@ -297,9 +342,10 @@ namespace CloudTrixApp.Controllers
             Employee.Company = new Company()
             {
                 CompanyID = (Int32)Employee.CompanyID
-               ,CompanyName = (from DataRow rowCompany in dtCompany.Rows
-                      where Employee.CompanyID == (int)rowCompany["CompanyID"]
-                      select (String)rowCompany["CompanyName"]).FirstOrDefault()
+               ,
+                CompanyName = (from DataRow rowCompany in dtCompany.Rows
+                               where Employee.CompanyID == (int)rowCompany["CompanyID"]
+                               select (String)rowCompany["CompanyName"]).FirstOrDefault()
             };
 
             if (Employee == null)
@@ -312,7 +358,7 @@ namespace CloudTrixApp.Controllers
         // GET: /Employee/Create
         public ActionResult Create()
         {
-        // ComboBox
+            // ComboBox
             ViewData["CompanyID"] = new SelectList(Employee_CompanyData.List(), "CompanyID", "CompanyName");
 
             return View();
@@ -324,23 +370,25 @@ namespace CloudTrixApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include=
-				           "FirstName"
-				   + "," + "LastName"
-				   + "," + "DOB"
-				   + "," + "DOJ"
-				   + "," + "Gender"
-				   + "," + "EMail"
-				   + "," + "Mobile"
-				   + "," + "Address1"
-				   + "," + "Address2"
-				   + "," + "Salary"
-				   + "," + "SignatureURL"
-				   + "," + "CompanyID"
-				   + "," + "AddUserID"
-				   + "," + "AddDate"
-				   + "," + "ArchiveUserID"
-				   + "," + "ArchiveDate"
-				  )] Employee Employee)
+                           "FirstName"
+                   + "," + "LastName"
+                   + "," + "DOB"
+                   + "," + "DOJ"
+                   + "," + "Gender"
+                   + "," + "EMail"
+                   + "," + "Mobile"
+                   + "," + "Address1"
+                   + "," + "Address2"
+                   + "," + "Salary"
+                   + "," + "SignatureURL"
+                   + "," + "UserName"
+                   + "," + "Password"
+                   + "," + "CompanyID"
+                   + "," + "AddUserID"
+                   + "," + "AddDate"
+                   + "," + "ArchiveUserID"
+                   + "," + "ArchiveDate"
+                  )] Employee Employee)
         {
             if (ModelState.IsValid)
             {
@@ -355,7 +403,7 @@ namespace CloudTrixApp.Controllers
                     ModelState.AddModelError("", "Can Not Insert");
                 }
             }
-        // ComboBox
+            // ComboBox
             ViewData["CompanyID"] = new SelectList(Employee_CompanyData.List(), "CompanyID", "CompanyName", Employee.CompanyID);
 
             return View(Employee);
@@ -381,7 +429,7 @@ namespace CloudTrixApp.Controllers
             {
                 return HttpNotFound();
             }
-        // ComboBox
+            // ComboBox
             ViewData["CompanyID"] = new SelectList(Employee_CompanyData.List(), "CompanyID", "CompanyName", Employee.CompanyID);
 
             return View(Employee);
@@ -412,7 +460,7 @@ namespace CloudTrixApp.Controllers
                     ModelState.AddModelError("", "Can Not Update");
                 }
             }
-        // ComboBox
+            // ComboBox
             ViewData["CompanyID"] = new SelectList(Employee_CompanyData.List(), "CompanyID", "CompanyName", Employee.CompanyID);
 
             return View(Employee);
@@ -438,9 +486,10 @@ namespace CloudTrixApp.Controllers
             Employee.Company = new Company()
             {
                 CompanyID = (Int32)Employee.CompanyID
-               ,CompanyName = (from DataRow rowCompany in dtCompany.Rows
-                      where Employee.CompanyID == (int)rowCompany["CompanyID"]
-                      select (String)rowCompany["CompanyName"]).FirstOrDefault()
+               ,
+                CompanyName = (from DataRow rowCompany in dtCompany.Rows
+                               where Employee.CompanyID == (int)rowCompany["CompanyID"]
+                               select (String)rowCompany["CompanyName"]).FirstOrDefault()
             };
 
             if (Employee == null)
@@ -495,13 +544,15 @@ namespace CloudTrixApp.Controllers
             SelectListItem Item10 = new SelectListItem { Text = "Address2", Value = "Address2" };
             SelectListItem Item11 = new SelectListItem { Text = "Salary", Value = "Salary" };
             SelectListItem Item12 = new SelectListItem { Text = "Signature U R L", Value = "Signature U R L" };
-            SelectListItem Item13 = new SelectListItem { Text = "Company I D", Value = "Company I D" };
-            SelectListItem Item14 = new SelectListItem { Text = "Add User I D", Value = "Add User I D" };
-            SelectListItem Item15 = new SelectListItem { Text = "Add Date", Value = "Add Date" };
-            SelectListItem Item16 = new SelectListItem { Text = "Archive User I D", Value = "Archive User I D" };
-            SelectListItem Item17 = new SelectListItem { Text = "Archive Date", Value = "Archive Date" };
+            SelectListItem Item13 = new SelectListItem { Text = "User Name", Value = "User Name" };
+            SelectListItem Item14 = new SelectListItem { Text = "Password", Value = "Password" };
+            SelectListItem Item15 = new SelectListItem { Text = "Company I D", Value = "Company I D" };
+            SelectListItem Item16 = new SelectListItem { Text = "Add User I D", Value = "Add User I D" };
+            SelectListItem Item17 = new SelectListItem { Text = "Add Date", Value = "Add Date" };
+            SelectListItem Item18 = new SelectListItem { Text = "Archive User I D", Value = "Archive User I D" };
+            SelectListItem Item19 = new SelectListItem { Text = "Archive Date", Value = "Archive Date" };
 
-                 if (select == "Employee I D") { Item1.Selected = true; }
+            if (select == "Employee I D") { Item1.Selected = true; }
             else if (select == "First Name") { Item2.Selected = true; }
             else if (select == "Last Name") { Item3.Selected = true; }
             else if (select == "D O B") { Item4.Selected = true; }
@@ -513,6 +564,8 @@ namespace CloudTrixApp.Controllers
             else if (select == "Address2") { Item10.Selected = true; }
             else if (select == "Salary") { Item11.Selected = true; }
             else if (select == "Signature U R L") { Item12.Selected = true; }
+            else if (select == "User Name") { Item13.Selected = true; }
+            else if (select == "Password") { Item14.Selected = true; }
             else if (select == "Company I D") { Item13.Selected = true; }
             else if (select == "Add User I D") { Item14.Selected = true; }
             else if (select == "Add Date") { Item15.Selected = true; }
@@ -536,6 +589,8 @@ namespace CloudTrixApp.Controllers
             list.Add(Item15);
             list.Add(Item16);
             list.Add(Item17);
+            list.Add(Item18);
+            list.Add(Item19);
 
             return list.ToList();
         }
@@ -586,4 +641,4 @@ namespace CloudTrixApp.Controllers
 
     }
 }
- 
+

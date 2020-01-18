@@ -66,6 +66,16 @@ namespace CloudTrixApp.Models
         public String SignatureURL { get; set; }
 
         [Required]
+        [StringLength(8000)]
+        [Display(Name = "User Name")]
+        public String UserName { get; set; }
+
+        [Required]
+        [StringLength(8000)]
+        [Display(Name = "Password")]
+        public String Password { get; set; }
+
+        [Required]
         [Display(Name = "Company I D")]
         public Int32 CompanyID { get; set; }
 

@@ -53,6 +53,7 @@
                     <div class="table-responsive">
                         <table class="table">
                             <tr class="bg-warning">
+                               
                                 <th>
                                     @Html.ActionLink("First Name", "Index", new { sortOrder = ViewData["FirstNameSortParm"], SearchText = ViewData["SearchText"] })
                                 </th>
@@ -109,17 +110,17 @@
                                     </td>
                                     <td>
                                         @Html.ActionLink("Edit", "Edit", new
-                               {
-                                   EmployeeID = item.EmployeeID
-                               }) |
+       {
+           EmployeeID = item.EmployeeID
+       }) |
                                         @Html.ActionLink("Details", "Details", new
-                               {
-                                   EmployeeID = item.EmployeeID
-                               }) |
+       {
+           EmployeeID = item.EmployeeID
+       }) |
                                         @Html.ActionLink("Delete", "Delete", new
-                               {
-                                   EmployeeID = item.EmployeeID
-                               })
+       {
+           EmployeeID = item.EmployeeID
+       })
                                     </td>
                                 </tr>
                             }
@@ -135,8 +136,7 @@
                         </table>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </div>
-</div>
-
