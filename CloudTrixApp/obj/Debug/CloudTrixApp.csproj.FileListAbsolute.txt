@@ -75,6 +75,7 @@ C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\CloudTrixApp\ob
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\CloudTrixApp.dll.config
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\CloudTrixApp.dll
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\CloudTrixApp.pdb
+C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\AdminLte.dll
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\Antlr3.Runtime.dll
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\EntityFramework.dll
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\EntityFramework.SqlServer.dll
@@ -108,6 +109,8 @@ C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\Cloud
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\System.Web.WebPages.dll
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\System.Web.WebPages.Razor.dll
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\WebGrease.dll
+C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\AdminLte.pdb
+C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\AdminLte.xml
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\MigraDoc.DocumentObjectModel.xml
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\MigraDoc.Rendering.xml
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\MigraDoc.RtfRendering.xml
@@ -115,9 +118,9 @@ C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\Cloud
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\PagedList.Mvc.xml
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\PdfSharp.xml
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\PdfSharp.Charting.xml
-C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\System.Web.Helpers.xml
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\System.Web.Mvc.xml
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\System.Web.Optimization.xml
+C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\System.Web.Helpers.xml
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\System.Web.Razor.xml
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\System.Web.WebPages.xml
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\System.Web.WebPages.Deployment.xml
@@ -143,6 +146,6 @@ C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\Cloud
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\de\MigraDoc.RtfRendering.resources.dll
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\de\PdfSharp.resources.dll
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\bin\de\PdfSharp.Charting.resources.dll
-C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\obj\Debug\CloudTrixApp.csprojResolveAssemblyReference.cache
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\obj\Debug\CloudTrixApp.dll
 C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\obj\Debug\CloudTrixApp.pdb
+C:\Users\VAIO\Desktop\Project\TEST1\ASP.Net MVC - # 1 - SQL P C#\Latest-PM\CloudTrixApp\obj\Debug\CloudTrixApp.csprojResolveAssemblyReference.cache

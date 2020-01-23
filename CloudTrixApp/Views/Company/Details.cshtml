@@ -3,16 +3,27 @@
 @{
     ViewBag.Title = "Details";
 }
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
 
-<div class="wraper container-fluid ">
-    <div class="row">
-        <div class="col col-md-11">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Details for Company </h3>
-                </div>
-                <div class="panel-body">
-                    <hr />
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Company</a></li>
+            <li class="active">Details Company</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Details for Company </h3>
+                    </div>
+                    <div class="panel-body">
+                        <hr />
                         @Html.HiddenFor(model => model.CompanyID)
                         <div class="container-fluid">
                             <div class="col-sm-4">
@@ -106,6 +117,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
