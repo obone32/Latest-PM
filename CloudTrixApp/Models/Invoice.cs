@@ -32,7 +32,6 @@ namespace CloudTrixApp.Models
         [Display(Name = "Client I D")]
         public Int32 ClientID { get; set; }
 
-        [Required]
         [StringLength(8000)]
         [Display(Name = "Client Name")]
         public String ClientName { get; set; }
@@ -53,9 +52,8 @@ namespace CloudTrixApp.Models
         [Display(Name = "Client E Mail")]
         public String ClientEMail { get; set; }
 
-        [Required]
         [Display(Name = "Additional Discount")]
-        public Decimal AdditionalDiscount { get; set; }
+        public Decimal? AdditionalDiscount { get; set; }
 
         [StringLength(8000)]
         [Display(Name = "Remarks")]
@@ -65,19 +63,16 @@ namespace CloudTrixApp.Models
         [Display(Name = "P D F Url")]
         public String PDFUrl { get; set; }
 
-        [Required]
         [Display(Name = "Company I D")]
-        public Int32 CompanyID { get; set; }
+        public Int32? CompanyID { get; set; }
 
-        [Required]
         [Display(Name = "Add User I D")]
-        public Int32 AddUserID { get; set; }
+        public Int32? AddUserID { get; set; }
 
-        [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Add Date")]
-        public DateTime AddDate { get; set; }
+        public DateTime? AddDate { get; set; }
 
         [Display(Name = "Archive User I D")]
         public Int32? ArchiveUserID { get; set; }
@@ -94,4 +89,4 @@ namespace CloudTrixApp.Models
 
     }
 }
-
+ 

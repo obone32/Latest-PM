@@ -15,7 +15,6 @@ using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
 using CloudTrixApp.Models;
 using CloudTrixApp.Data;
-using CloudTrixApp.Models.ViewModel;
 
 namespace CloudTrixApp.Controllers
 {
@@ -27,38 +26,32 @@ namespace CloudTrixApp.Controllers
         DataTable dtClient = new DataTable();
         DataTable dtCompany = new DataTable();
 
-        #region Index Page List
         // GET: /Invoice/
-        public ActionResult Index(string sortOrder,
+        public ActionResult Index(string sortOrder,  
                                   String SearchField,
                                   String SearchCondition,
                                   String SearchText,
                                   String Export,
                                   int? PageSize,
-                                  int? page,
+                                  int? page, 
                                   string command)
         {
 
-            if (command == "Show All")
-            {
+            if (command == "Show All") {
                 SearchField = null;
                 SearchCondition = null;
                 SearchText = null;
                 Session["SearchField"] = null;
                 Session["SearchCondition"] = null;
-                Session["SearchText"] = null;
-            }
-            else if (command == "Add New Record") { return RedirectToAction("Create"); }
-            else if (command == "Export") { Session["Export"] = Export; }
-            else if (command == "Search" | command == "Page Size")
-            {
-                if (!string.IsNullOrEmpty(SearchText))
-                {
+                Session["SearchText"] = null; } 
+            else if (command == "Add New Record") { return RedirectToAction("Create"); } 
+            else if (command == "Export") { Session["Export"] = Export; } 
+            else if (command == "Search" | command == "Page Size") {
+                if (!string.IsNullOrEmpty(SearchText)) {
                     Session["SearchField"] = SearchField;
                     Session["SearchCondition"] = SearchCondition;
-                    Session["SearchText"] = SearchText;
-                }
-            }
+                    Session["SearchText"] = SearchText; }
+                } 
             if (command == "Page Size") { Session["PageSize"] = PageSize; }
 
             ViewData["SearchFields"] = GetFields((Session["SearchField"] == null ? "Invoice I D" : Convert.ToString(Session["SearchField"])));
@@ -90,6 +83,7 @@ namespace CloudTrixApp.Controllers
             dtInvoice = InvoiceData.SelectAll();
             dtProject = Invoice_ProjectData.SelectAll();
             dtClient = Invoice_ClientData.SelectAll();
+            dtCompany = Invoice_CompanyData.SelectAll();
 
             try
             {
@@ -101,59 +95,43 @@ namespace CloudTrixApp.Controllers
             catch { }
 
             var Query = from rowInvoice in dtInvoice.AsEnumerable()
-                        join rowClient in dtClient.AsEnumerable() on rowInvoice.Field<Int32>("ClientID") equals rowClient.Field<Int32>("ClientID")
                         join rowProject in dtProject.AsEnumerable() on rowInvoice.Field<Int32?>("ProjectID") equals rowProject.Field<Int32>("ProjectID")
-                        join rowCompany in dtCompany.AsEnumerable() on rowInvoice.Field<Int32>("CompanyID") equals rowCompany.Field<Int32>("CompanyID")
-                        select new Invoice()
-                        {
+                        join rowClient in dtClient.AsEnumerable() on rowInvoice.Field<Int32>("ClientID") equals rowClient.Field<Int32>("ClientID")
+                        join rowCompany in dtCompany.AsEnumerable() on rowInvoice.Field<Int32?>("CompanyID") equals rowCompany.Field<Int32>("CompanyID")
+                        select new Invoice() {
                             InvoiceID = rowInvoice.Field<Int32>("InvoiceID")
+                           ,InvoiceNo = rowInvoice.Field<String>("InvoiceNo")
+                           ,InvoiceDate = rowInvoice.Field<DateTime>("InvoiceDate")
                            ,
-                            InvoiceNo = rowInvoice.Field<String>("InvoiceNo")
-                           ,
-                            InvoiceDate = rowInvoice.Field<DateTime>("InvoiceDate")
-                           ,
-                            Project = new Project()
+                            Project = new Project() 
                             {
-                                ProjectID = rowProject.Field<Int32>("ProjectID")
-                                  ,
-                                ProjectName = rowProject.Field<String>("ProjectName")
+                                   ProjectID = rowProject.Field<Int32>("ProjectID")
+                                  ,ProjectName = rowProject.Field<String>("ProjectName")
                             }
                            ,
-                            Client = new Client()
+                            Client = new Client() 
                             {
-                                ClientID = rowClient.Field<Int32>("ClientID")
-                                  ,
-                                ClientName = rowClient.Field<String>("ClientName")
+                                   ClientID = rowClient.Field<Int32>("ClientID")
+                                  ,ClientName = rowClient.Field<String>("ClientName")
                             }
+                           ,ClientName = rowInvoice.Field<String>("ClientName")
+                           ,ClientAddress = rowInvoice.Field<String>("ClientAddress")
+                           ,ClientGSTIN = rowInvoice.Field<String>("ClientGSTIN")
+                           ,ClientContactNo = rowInvoice.Field<String>("ClientContactNo")
+                           ,ClientEMail = rowInvoice.Field<String>("ClientEMail")
+                           ,AdditionalDiscount = rowInvoice.Field<Decimal?>("AdditionalDiscount")
+                           ,Remarks = rowInvoice.Field<String>("Remarks")
+                           ,PDFUrl = rowInvoice.Field<String>("PDFUrl")
                            ,
-                            ClientName = rowInvoice.Field<String>("ClientName")
-                           ,
-                            ClientAddress = rowInvoice.Field<String>("ClientAddress")
-                           ,
-                            ClientGSTIN = rowInvoice.Field<String>("ClientGSTIN")
-                           ,
-                            ClientContactNo = rowInvoice.Field<String>("ClientContactNo")
-                           ,
-                            ClientEMail = rowInvoice.Field<String>("ClientEMail")
-                           ,
-                            AdditionalDiscount = rowInvoice.Field<Decimal>("AdditionalDiscount")
-                           ,
-                            Remarks = rowInvoice.Field<String>("Remarks")
-                           ,
-                            PDFUrl = rowInvoice.Field<String>("PDFUrl")
-                           ,
-                            Company = new Company()
+                            Company = new Company() 
                             {
-                                CompanyID = rowCompany.Field<Int32>("CompanyID")
+                                   CompanyID = rowCompany.Field<Int32>("CompanyID")
+                                  ,CompanyName = rowCompany.Field<String>("CompanyName")
                             }
-                           ,
-                            AddUserID = rowInvoice.Field<Int32>("AddUserID")
-                           ,
-                            AddDate = rowInvoice.Field<DateTime>("AddDate")
-                           ,
-                            ArchiveUserID = rowInvoice.Field<Int32?>("ArchiveUserID")
-                           ,
-                            ArchiveDate = rowInvoice.Field<DateTime?>("ArchiveDate")
+                           ,AddUserID = rowInvoice.Field<Int32?>("AddUserID")
+                           ,AddDate = rowInvoice.Field<DateTime?>("AddDate")
+                           ,ArchiveUserID = rowInvoice.Field<Int32?>("ArchiveUserID")
+                           ,ArchiveDate = rowInvoice.Field<DateTime?>("ArchiveDate")
                         };
 
             switch (sortOrder)
@@ -237,10 +215,10 @@ namespace CloudTrixApp.Controllers
                     Query = Query.OrderBy(s => s.PDFUrl);
                     break;
                 case "CompanyID_desc":
-                    Query = Query.OrderByDescending(s => s.Company.CompanyID);
+                    Query = Query.OrderByDescending(s => s.Company.CompanyName);
                     break;
                 case "CompanyID_asc":
-                    Query = Query.OrderBy(s => s.Company.CompanyID);
+                    Query = Query.OrderBy(s => s.Company.CompanyName);
                     break;
                 case "AddUserID_desc":
                     Query = Query.OrderByDescending(s => s.AddUserID);
@@ -271,8 +249,7 @@ namespace CloudTrixApp.Controllers
                     break;
             }
 
-            if (command == "Export")
-            {
+            if (command == "Export") {
                 GridView gv = new GridView();
                 DataTable dt = new DataTable();
                 dt.Columns.Add("Invoice I D", typeof(string));
@@ -297,23 +274,23 @@ namespace CloudTrixApp.Controllers
                 {
                     dt.Rows.Add(
                         item.InvoiceID
-                       , item.InvoiceNo
-                       , item.InvoiceDate
-                       , item.Project.ProjectName
-                       , item.Client.ClientName
-                       , item.ClientName
-                       , item.ClientAddress
-                       , item.ClientGSTIN
-                       , item.ClientContactNo
-                       , item.ClientEMail
-                       , item.AdditionalDiscount
-                       , item.Remarks
-                       , item.PDFUrl
-                       , item.Company.CompanyID
-                       , item.AddUserID
-                       , item.AddDate
-                       , item.ArchiveUserID
-                       , item.ArchiveDate
+                       ,item.InvoiceNo
+                       ,item.InvoiceDate
+                       ,item.Project.ProjectName
+                       ,item.Client.ClientName
+                       ,item.ClientName
+                       ,item.ClientAddress
+                       ,item.ClientGSTIN
+                       ,item.ClientContactNo
+                       ,item.ClientEMail
+                       ,item.AdditionalDiscount
+                       ,item.Remarks
+                       ,item.PDFUrl
+                       ,item.Company.CompanyName
+                       ,item.AddUserID
+                       ,item.AddDate
+                       ,item.ArchiveUserID
+                       ,item.ArchiveDate
                     );
                 }
                 gv.DataSource = dt;
@@ -325,9 +302,7 @@ namespace CloudTrixApp.Controllers
             int? pageSZ = (Convert.ToInt32(Session["PageSize"]) == 0 ? 5 : Convert.ToInt32(Session["PageSize"]));
             return View(Query.ToPagedList(pageNumber, (pageSZ ?? 5)));
         }
-        #endregion
 
-        #region Invoice Details
         // GET: /Invoice/Details/<id>
         public ActionResult Details(
                                       Int32? InvoiceID
@@ -342,6 +317,7 @@ namespace CloudTrixApp.Controllers
 
             dtProject = Invoice_ProjectData.SelectAll();
             dtClient = Invoice_ClientData.SelectAll();
+            dtCompany = Invoice_CompanyData.SelectAll();
 
             Invoice Invoice = new Invoice();
             Invoice.InvoiceID = System.Convert.ToInt32(InvoiceID);
@@ -349,22 +325,23 @@ namespace CloudTrixApp.Controllers
             Invoice.Project = new Project()
             {
                 ProjectID = (Int32)Invoice.ProjectID
-               ,
-                ProjectName = (from DataRow rowProject in dtProject.Rows
-                               where Invoice.ProjectID == (int)rowProject["ProjectID"]
-                               select (String)rowProject["ProjectName"]).FirstOrDefault()
+               ,ProjectName = (from DataRow rowProject in dtProject.Rows
+                      where Invoice.ProjectID == (int)rowProject["ProjectID"]
+                      select (String)rowProject["ProjectName"]).FirstOrDefault()
             };
             Invoice.Client = new Client()
             {
                 ClientID = (Int32)Invoice.ClientID
-               ,
-                ClientName = (from DataRow rowClient in dtClient.Rows
-                              where Invoice.ClientID == (int)rowClient["ClientID"]
-                              select (String)rowClient["ClientName"]).FirstOrDefault()
+               ,ClientName = (from DataRow rowClient in dtClient.Rows
+                      where Invoice.ClientID == (int)rowClient["ClientID"]
+                      select (String)rowClient["ClientName"]).FirstOrDefault()
             };
             Invoice.Company = new Company()
             {
                 CompanyID = (Int32)Invoice.CompanyID
+               ,CompanyName = (from DataRow rowCompany in dtCompany.Rows
+                      where Invoice.CompanyID == (int)rowCompany["CompanyID"]
+                      select (String)rowCompany["CompanyName"]).FirstOrDefault()
             };
 
             if (Invoice == null)
@@ -373,53 +350,42 @@ namespace CloudTrixApp.Controllers
             }
             return View(Invoice);
         }
-        #endregion
 
-        #region Invoice Create
         // GET: /Invoice/Create
         public ActionResult Create()
         {
-            // ComboBox
+        // ComboBox
             ViewData["ProjectID"] = new SelectList(Invoice_ProjectData.List(), "ProjectID", "ProjectName");
             ViewData["ClientID"] = new SelectList(Invoice_ClientData.List(), "ClientID", "ClientName");
+            ViewData["CompanyID"] = new SelectList(Invoice_CompanyData.List(), "CompanyID", "CompanyName");
+
             return View();
         }
-        
-        #region Get Customer Details
-        //     GET Details for Clients JSON Output
-        public JsonResult GetClientDetails(int ClientID)
-        {
-            Client Client = new Client();
-            Client.ClientID = System.Convert.ToInt32(ClientID);
-            Client = ClientData.Select_Record(Client);
-            return Json(Client, JsonRequestBehavior.AllowGet);
-        }
-        #endregion
-      
+
         // POST: /Invoice/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include=
-                           "InvoiceNo"
-                   + "," + "InvoiceDate"
-                   + "," + "ProjectID"
-                   + "," + "ClientID"
-                   + "," + "ClientName"
-                   + "," + "ClientAddress"
-                   + "," + "ClientGSTIN"
-                   + "," + "ClientContactNo"
-                   + "," + "ClientEMail"
-                   + "," + "AdditionalDiscount"
-                   + "," + "Remarks"
-                   + "," + "PDFUrl"
-                   + "," + "CompanyID"
-                   + "," + "AddUserID"
-                   + "," + "AddDate"
-                   + "," + "ArchiveUserID"
-                   + "," + "ArchiveDate"
-                  )] Invoice Invoice)
+				           "InvoiceNo"
+				   + "," + "InvoiceDate"
+				   + "," + "ProjectID"
+				   + "," + "ClientID"
+				   + "," + "ClientName"
+				   + "," + "ClientAddress"
+				   + "," + "ClientGSTIN"
+				   + "," + "ClientContactNo"
+				   + "," + "ClientEMail"
+				   + "," + "AdditionalDiscount"
+				   + "," + "Remarks"
+				   + "," + "PDFUrl"
+				   + "," + "CompanyID"
+				   + "," + "AddUserID"
+				   + "," + "AddDate"
+				   + "," + "ArchiveUserID"
+				   + "," + "ArchiveDate"
+				  )] Invoice Invoice)
         {
             if (ModelState.IsValid)
             {
@@ -434,34 +400,14 @@ namespace CloudTrixApp.Controllers
                     ModelState.AddModelError("", "Can Not Insert");
                 }
             }
-            // ComboBox
+        // ComboBox
             ViewData["ProjectID"] = new SelectList(Invoice_ProjectData.List(), "ProjectID", "ProjectName", Invoice.ProjectID);
             ViewData["ClientID"] = new SelectList(Invoice_ClientData.List(), "ClientID", "ClientName", Invoice.ClientID);
+            ViewData["CompanyID"] = new SelectList(Invoice_CompanyData.List(), "CompanyID", "CompanyName", Invoice.CompanyID);
 
             return View(Invoice);
         }
-        #endregion
 
-        #region Invoice Create1
-
-        // Get : Create1
-        public ActionResult Create1()
-        {
-            // ComboBox
-            ViewData["ProjectID"] = new SelectList(Invoice_ProjectData.List(), "ProjectID", "ProjectName");
-            ViewData["ClientID"] = new SelectList(Invoice_ClientData.List(), "ClientID", "ClientName");
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Create1(InvoiceOrderViewModel objInvoiceOrderViewModel)
-        {
-            Invoice objInvoice = new Invoice();
-            return View();
-        }
-        #endregion
-
-        #region Invoice Edit
         // GET: /Invoice/Edit/<id>
         public ActionResult Edit(
                                    Int32? InvoiceID
@@ -482,9 +428,10 @@ namespace CloudTrixApp.Controllers
             {
                 return HttpNotFound();
             }
-            // ComboBox
+        // ComboBox
             ViewData["ProjectID"] = new SelectList(Invoice_ProjectData.List(), "ProjectID", "ProjectName", Invoice.ProjectID);
             ViewData["ClientID"] = new SelectList(Invoice_ClientData.List(), "ClientID", "ClientName", Invoice.ClientID);
+            ViewData["CompanyID"] = new SelectList(Invoice_CompanyData.List(), "CompanyID", "CompanyName", Invoice.CompanyID);
 
             return View(Invoice);
         }
@@ -514,15 +461,14 @@ namespace CloudTrixApp.Controllers
                     ModelState.AddModelError("", "Can Not Update");
                 }
             }
-            // ComboBox
+        // ComboBox
             ViewData["ProjectID"] = new SelectList(Invoice_ProjectData.List(), "ProjectID", "ProjectName", Invoice.ProjectID);
             ViewData["ClientID"] = new SelectList(Invoice_ClientData.List(), "ClientID", "ClientName", Invoice.ClientID);
+            ViewData["CompanyID"] = new SelectList(Invoice_CompanyData.List(), "CompanyID", "CompanyName", Invoice.CompanyID);
 
             return View(Invoice);
         }
-        #endregion
 
-        #region Invoice Delete
         // GET: /Invoice/Delete/<id>
         public ActionResult Delete(
                                      Int32? InvoiceID
@@ -537,6 +483,7 @@ namespace CloudTrixApp.Controllers
 
             dtProject = Invoice_ProjectData.SelectAll();
             dtClient = Invoice_ClientData.SelectAll();
+            dtCompany = Invoice_CompanyData.SelectAll();
 
             Invoice Invoice = new Invoice();
             Invoice.InvoiceID = System.Convert.ToInt32(InvoiceID);
@@ -544,22 +491,23 @@ namespace CloudTrixApp.Controllers
             Invoice.Project = new Project()
             {
                 ProjectID = (Int32)Invoice.ProjectID
-               ,
-                ProjectName = (from DataRow rowProject in dtProject.Rows
-                               where Invoice.ProjectID == (int)rowProject["ProjectID"]
-                               select (String)rowProject["ProjectName"]).FirstOrDefault()
+               ,ProjectName = (from DataRow rowProject in dtProject.Rows
+                      where Invoice.ProjectID == (int)rowProject["ProjectID"]
+                      select (String)rowProject["ProjectName"]).FirstOrDefault()
             };
             Invoice.Client = new Client()
             {
                 ClientID = (Int32)Invoice.ClientID
-               ,
-                ClientName = (from DataRow rowClient in dtClient.Rows
-                              where Invoice.ClientID == (int)rowClient["ClientID"]
-                              select (String)rowClient["ClientName"]).FirstOrDefault()
+               ,ClientName = (from DataRow rowClient in dtClient.Rows
+                      where Invoice.ClientID == (int)rowClient["ClientID"]
+                      select (String)rowClient["ClientName"]).FirstOrDefault()
             };
             Invoice.Company = new Company()
             {
                 CompanyID = (Int32)Invoice.CompanyID
+               ,CompanyName = (from DataRow rowCompany in dtCompany.Rows
+                      where Invoice.CompanyID == (int)rowCompany["CompanyID"]
+                      select (String)rowCompany["CompanyName"]).FirstOrDefault()
             };
 
             if (Invoice == null)
@@ -593,15 +541,12 @@ namespace CloudTrixApp.Controllers
             }
             return null;
         }
-        #endregion
-
 
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
         }
 
-        #region Get Invoice Fields List
         private static List<SelectListItem> GetFields(String select)
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -624,7 +569,7 @@ namespace CloudTrixApp.Controllers
             SelectListItem Item17 = new SelectListItem { Text = "Archive User I D", Value = "Archive User I D" };
             SelectListItem Item18 = new SelectListItem { Text = "Archive Date", Value = "Archive Date" };
 
-            if (select == "Invoice I D") { Item1.Selected = true; }
+                 if (select == "Invoice I D") { Item1.Selected = true; }
             else if (select == "Invoice No") { Item2.Selected = true; }
             else if (select == "Invoice Date") { Item3.Selected = true; }
             else if (select == "Project I D") { Item4.Selected = true; }
@@ -664,9 +609,7 @@ namespace CloudTrixApp.Controllers
 
             return list.ToList();
         }
-        #endregion
 
-        #region Invoice Export Data
         private void ExportData(String Export, GridView gv, DataTable dt)
         {
             if (Export == "Pdf")
@@ -710,7 +653,7 @@ namespace CloudTrixApp.Controllers
                 Response.End();
             }
         }
-        #endregion
+
     }
 }
-
+ 
