@@ -303,6 +303,309 @@ namespace CloudTrixApp.Controllers
             return View(Query.ToPagedList(pageNumber, (pageSZ ?? 5)));
         }
 
+        // Invoice1
+        public ActionResult Invoice1(string sortOrder,
+                                  String SearchField,
+                                  String SearchCondition,
+                                  String SearchText,
+                                  String Export,
+                                  int? PageSize,
+                                  int? page,
+                                  string command)
+        {
+
+            if (command == "Show All")
+            {
+                SearchField = null;
+                SearchCondition = null;
+                SearchText = null;
+                Session["SearchField"] = null;
+                Session["SearchCondition"] = null;
+                Session["SearchText"] = null;
+            }
+            else if (command == "Add New Record") { return RedirectToAction("Create"); }
+            else if (command == "Export") { Session["Export"] = Export; }
+            else if (command == "Search" | command == "Page Size")
+            {
+                if (!string.IsNullOrEmpty(SearchText))
+                {
+                    Session["SearchField"] = SearchField;
+                    Session["SearchCondition"] = SearchCondition;
+                    Session["SearchText"] = SearchText;
+                }
+            }
+            if (command == "Page Size") { Session["PageSize"] = PageSize; }
+
+            ViewData["SearchFields"] = GetFields((Session["SearchField"] == null ? "Invoice I D" : Convert.ToString(Session["SearchField"])));
+            ViewData["SearchConditions"] = Library.GetConditions((Session["SearchCondition"] == null ? "Contains" : Convert.ToString(Session["SearchCondition"])));
+            ViewData["SearchText"] = Session["SearchText"];
+            ViewData["Exports"] = Library.GetExports((Session["Export"] == null ? "Pdf" : Convert.ToString(Session["Export"])));
+            ViewData["PageSizes"] = Library.GetPageSizes();
+
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["InvoiceIDSortParm"] = sortOrder == "InvoiceID_asc" ? "InvoiceID_desc" : "InvoiceID_asc";
+            ViewData["InvoiceNoSortParm"] = sortOrder == "InvoiceNo_asc" ? "InvoiceNo_desc" : "InvoiceNo_asc";
+            ViewData["InvoiceDateSortParm"] = sortOrder == "InvoiceDate_asc" ? "InvoiceDate_desc" : "InvoiceDate_asc";
+            ViewData["ProjectIDSortParm"] = sortOrder == "ProjectID_asc" ? "ProjectID_desc" : "ProjectID_asc";
+            ViewData["ClientIDSortParm"] = sortOrder == "ClientID_asc" ? "ClientID_desc" : "ClientID_asc";
+            ViewData["ClientNameSortParm"] = sortOrder == "ClientName_asc" ? "ClientName_desc" : "ClientName_asc";
+            ViewData["ClientAddressSortParm"] = sortOrder == "ClientAddress_asc" ? "ClientAddress_desc" : "ClientAddress_asc";
+            ViewData["ClientGSTINSortParm"] = sortOrder == "ClientGSTIN_asc" ? "ClientGSTIN_desc" : "ClientGSTIN_asc";
+            ViewData["ClientContactNoSortParm"] = sortOrder == "ClientContactNo_asc" ? "ClientContactNo_desc" : "ClientContactNo_asc";
+            ViewData["ClientEMailSortParm"] = sortOrder == "ClientEMail_asc" ? "ClientEMail_desc" : "ClientEMail_asc";
+            ViewData["AdditionalDiscountSortParm"] = sortOrder == "AdditionalDiscount_asc" ? "AdditionalDiscount_desc" : "AdditionalDiscount_asc";
+            ViewData["RemarksSortParm"] = sortOrder == "Remarks_asc" ? "Remarks_desc" : "Remarks_asc";
+            ViewData["PDFUrlSortParm"] = sortOrder == "PDFUrl_asc" ? "PDFUrl_desc" : "PDFUrl_asc";
+            ViewData["CompanyIDSortParm"] = sortOrder == "CompanyID_asc" ? "CompanyID_desc" : "CompanyID_asc";
+            ViewData["AddUserIDSortParm"] = sortOrder == "AddUserID_asc" ? "AddUserID_desc" : "AddUserID_asc";
+            ViewData["AddDateSortParm"] = sortOrder == "AddDate_asc" ? "AddDate_desc" : "AddDate_asc";
+            ViewData["ArchiveUserIDSortParm"] = sortOrder == "ArchiveUserID_asc" ? "ArchiveUserID_desc" : "ArchiveUserID_asc";
+            ViewData["ArchiveDateSortParm"] = sortOrder == "ArchiveDate_asc" ? "ArchiveDate_desc" : "ArchiveDate_asc";
+
+            dtInvoice = InvoiceData.SelectAll();
+            dtProject = Invoice_ProjectData.SelectAll();
+            dtClient = Invoice_ClientData.SelectAll();
+            dtCompany = Invoice_CompanyData.SelectAll();
+
+            try
+            {
+                if (!string.IsNullOrEmpty(Convert.ToString(Session["SearchField"])) & !string.IsNullOrEmpty(Convert.ToString(Session["SearchCondition"])) & !string.IsNullOrEmpty(Convert.ToString(Session["SearchText"])))
+                {
+                    dtInvoice = InvoiceData.Search(Convert.ToString(Session["SearchField"]), Convert.ToString(Session["SearchCondition"]), Convert.ToString(Session["SearchText"]));
+                }
+            }
+            catch { }
+
+            var Query = from rowInvoice in dtInvoice.AsEnumerable()
+                        join rowProject in dtProject.AsEnumerable() on rowInvoice.Field<Int32?>("ProjectID") equals rowProject.Field<Int32>("ProjectID")
+                        join rowClient in dtClient.AsEnumerable() on rowInvoice.Field<Int32>("ClientID") equals rowClient.Field<Int32>("ClientID")
+                        join rowCompany in dtCompany.AsEnumerable() on rowInvoice.Field<Int32?>("CompanyID") equals rowCompany.Field<Int32>("CompanyID")
+                        select new Invoice()
+                        {
+                            InvoiceID = rowInvoice.Field<Int32>("InvoiceID")
+                           ,
+                            InvoiceNo = rowInvoice.Field<String>("InvoiceNo")
+                           ,
+                            InvoiceDate = rowInvoice.Field<DateTime>("InvoiceDate")
+                           ,
+                            Project = new Project()
+                            {
+                                ProjectID = rowProject.Field<Int32>("ProjectID")
+                                  ,
+                                ProjectName = rowProject.Field<String>("ProjectName")
+                            }
+                           ,
+                            Client = new Client()
+                            {
+                                ClientID = rowClient.Field<Int32>("ClientID")
+                                  ,
+                                ClientName = rowClient.Field<String>("ClientName")
+                            }
+                           ,
+                            ClientName = rowInvoice.Field<String>("ClientName")
+                           ,
+                            ClientAddress = rowInvoice.Field<String>("ClientAddress")
+                           ,
+                            ClientGSTIN = rowInvoice.Field<String>("ClientGSTIN")
+                           ,
+                            ClientContactNo = rowInvoice.Field<String>("ClientContactNo")
+                           ,
+                            ClientEMail = rowInvoice.Field<String>("ClientEMail")
+                           ,
+                            AdditionalDiscount = rowInvoice.Field<Decimal?>("AdditionalDiscount")
+                           ,
+                            Remarks = rowInvoice.Field<String>("Remarks")
+                           ,
+                            PDFUrl = rowInvoice.Field<String>("PDFUrl")
+                           ,
+                            Company = new Company()
+                            {
+                                CompanyID = rowCompany.Field<Int32>("CompanyID")
+                                  ,
+                                CompanyName = rowCompany.Field<String>("CompanyName")
+                            }
+                           ,
+                            AddUserID = rowInvoice.Field<Int32?>("AddUserID")
+                           ,
+                            AddDate = rowInvoice.Field<DateTime?>("AddDate")
+                           ,
+                            ArchiveUserID = rowInvoice.Field<Int32?>("ArchiveUserID")
+                           ,
+                            ArchiveDate = rowInvoice.Field<DateTime?>("ArchiveDate")
+                        };
+
+            switch (sortOrder)
+            {
+                case "InvoiceID_desc":
+                    Query = Query.OrderByDescending(s => s.InvoiceID);
+                    break;
+                case "InvoiceID_asc":
+                    Query = Query.OrderBy(s => s.InvoiceID);
+                    break;
+                case "InvoiceNo_desc":
+                    Query = Query.OrderByDescending(s => s.InvoiceNo);
+                    break;
+                case "InvoiceNo_asc":
+                    Query = Query.OrderBy(s => s.InvoiceNo);
+                    break;
+                case "InvoiceDate_desc":
+                    Query = Query.OrderByDescending(s => s.InvoiceDate);
+                    break;
+                case "InvoiceDate_asc":
+                    Query = Query.OrderBy(s => s.InvoiceDate);
+                    break;
+                case "ProjectID_desc":
+                    Query = Query.OrderByDescending(s => s.Project.ProjectName);
+                    break;
+                case "ProjectID_asc":
+                    Query = Query.OrderBy(s => s.Project.ProjectName);
+                    break;
+                case "ClientID_desc":
+                    Query = Query.OrderByDescending(s => s.Client.ClientName);
+                    break;
+                case "ClientID_asc":
+                    Query = Query.OrderBy(s => s.Client.ClientName);
+                    break;
+                case "ClientName_desc":
+                    Query = Query.OrderByDescending(s => s.ClientName);
+                    break;
+                case "ClientName_asc":
+                    Query = Query.OrderBy(s => s.ClientName);
+                    break;
+                case "ClientAddress_desc":
+                    Query = Query.OrderByDescending(s => s.ClientAddress);
+                    break;
+                case "ClientAddress_asc":
+                    Query = Query.OrderBy(s => s.ClientAddress);
+                    break;
+                case "ClientGSTIN_desc":
+                    Query = Query.OrderByDescending(s => s.ClientGSTIN);
+                    break;
+                case "ClientGSTIN_asc":
+                    Query = Query.OrderBy(s => s.ClientGSTIN);
+                    break;
+                case "ClientContactNo_desc":
+                    Query = Query.OrderByDescending(s => s.ClientContactNo);
+                    break;
+                case "ClientContactNo_asc":
+                    Query = Query.OrderBy(s => s.ClientContactNo);
+                    break;
+                case "ClientEMail_desc":
+                    Query = Query.OrderByDescending(s => s.ClientEMail);
+                    break;
+                case "ClientEMail_asc":
+                    Query = Query.OrderBy(s => s.ClientEMail);
+                    break;
+                case "AdditionalDiscount_desc":
+                    Query = Query.OrderByDescending(s => s.AdditionalDiscount);
+                    break;
+                case "AdditionalDiscount_asc":
+                    Query = Query.OrderBy(s => s.AdditionalDiscount);
+                    break;
+                case "Remarks_desc":
+                    Query = Query.OrderByDescending(s => s.Remarks);
+                    break;
+                case "Remarks_asc":
+                    Query = Query.OrderBy(s => s.Remarks);
+                    break;
+                case "PDFUrl_desc":
+                    Query = Query.OrderByDescending(s => s.PDFUrl);
+                    break;
+                case "PDFUrl_asc":
+                    Query = Query.OrderBy(s => s.PDFUrl);
+                    break;
+                case "CompanyID_desc":
+                    Query = Query.OrderByDescending(s => s.Company.CompanyName);
+                    break;
+                case "CompanyID_asc":
+                    Query = Query.OrderBy(s => s.Company.CompanyName);
+                    break;
+                case "AddUserID_desc":
+                    Query = Query.OrderByDescending(s => s.AddUserID);
+                    break;
+                case "AddUserID_asc":
+                    Query = Query.OrderBy(s => s.AddUserID);
+                    break;
+                case "AddDate_desc":
+                    Query = Query.OrderByDescending(s => s.AddDate);
+                    break;
+                case "AddDate_asc":
+                    Query = Query.OrderBy(s => s.AddDate);
+                    break;
+                case "ArchiveUserID_desc":
+                    Query = Query.OrderByDescending(s => s.ArchiveUserID);
+                    break;
+                case "ArchiveUserID_asc":
+                    Query = Query.OrderBy(s => s.ArchiveUserID);
+                    break;
+                case "ArchiveDate_desc":
+                    Query = Query.OrderByDescending(s => s.ArchiveDate);
+                    break;
+                case "ArchiveDate_asc":
+                    Query = Query.OrderBy(s => s.ArchiveDate);
+                    break;
+                default:  // Name ascending 
+                    Query = Query.OrderBy(s => s.InvoiceID);
+                    break;
+            }
+
+            if (command == "Export")
+            {
+                GridView gv = new GridView();
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Invoice I D", typeof(string));
+                dt.Columns.Add("Invoice No", typeof(string));
+                dt.Columns.Add("Invoice Date", typeof(string));
+                dt.Columns.Add("Project I D", typeof(string));
+                dt.Columns.Add("Client I D", typeof(string));
+                dt.Columns.Add("Client Name", typeof(string));
+                dt.Columns.Add("Client Address", typeof(string));
+                dt.Columns.Add("Client G S T I N", typeof(string));
+                dt.Columns.Add("Client Contact No", typeof(string));
+                dt.Columns.Add("Client E Mail", typeof(string));
+                dt.Columns.Add("Additional Discount", typeof(string));
+                dt.Columns.Add("Remarks", typeof(string));
+                dt.Columns.Add("P D F Url", typeof(string));
+                dt.Columns.Add("Company I D", typeof(string));
+                dt.Columns.Add("Add User I D", typeof(string));
+                dt.Columns.Add("Add Date", typeof(string));
+                dt.Columns.Add("Archive User I D", typeof(string));
+                dt.Columns.Add("Archive Date", typeof(string));
+                foreach (var item in Query)
+                {
+                    dt.Rows.Add(
+                        item.InvoiceID
+                       , item.InvoiceNo
+                       , item.InvoiceDate
+                       , item.Project.ProjectName
+                       , item.Client.ClientName
+                       , item.ClientName
+                       , item.ClientAddress
+                       , item.ClientGSTIN
+                       , item.ClientContactNo
+                       , item.ClientEMail
+                       , item.AdditionalDiscount
+                       , item.Remarks
+                       , item.PDFUrl
+                       , item.Company.CompanyName
+                       , item.AddUserID
+                       , item.AddDate
+                       , item.ArchiveUserID
+                       , item.ArchiveDate
+                    );
+                }
+                gv.DataSource = dt;
+                gv.DataBind();
+                ExportData(Export, gv, dt);
+            }
+
+            int pageNumber = (page ?? 1);
+            int? pageSZ = (Convert.ToInt32(Session["PageSize"]) == 0 ? 5 : Convert.ToInt32(Session["PageSize"]));
+            return View(Query.ToPagedList(pageNumber, (pageSZ ?? 5)));
+        }
+
+        //End of Invooice1
+
         // GET: /Invoice/Details/<id>
         public ActionResult Details(
                                       Int32? InvoiceID
