@@ -101,8 +101,8 @@ namespace CloudTrixApp.Controllers
             catch { }
 
             var Query = from rowInvoice in dtInvoice.AsEnumerable()
-                        join rowProject in dtProject.AsEnumerable() on rowInvoice.Field<Int32?>("ProjectID") equals rowProject.Field<Int32>("ProjectID")
                         join rowClient in dtClient.AsEnumerable() on rowInvoice.Field<Int32>("ClientID") equals rowClient.Field<Int32>("ClientID")
+                        join rowProject in dtProject.AsEnumerable() on rowInvoice.Field<Int32?>("ProjectID") equals rowProject.Field<Int32>("ProjectID")
                         join rowCompany in dtCompany.AsEnumerable() on rowInvoice.Field<Int32>("CompanyID") equals rowCompany.Field<Int32>("CompanyID")
                         select new Invoice()
                         {
