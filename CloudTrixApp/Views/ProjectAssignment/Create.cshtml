@@ -4,97 +4,123 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
 
-<h2>Create</h2>
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Task Management</a></li>
+            <li class="active">Create Project Assignment</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create Project Assignment</h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
 
+                            <div class="form-horizontal">
+                                <hr />
+                                @Html.ValidationSummary(true)
+                                @Html.HiddenFor(model => model.ProjectAssignmentID)
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>ProjectAssignment</h4>
-        <hr />
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.ProjectAssignmentID)
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="ProjectID">Project Name</label>
+                                            @Html.DropDownList("ProjectID", null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.ProjectID)
+                                        </div>
+                                    </div>
+                                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProjectID, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ProjectID")
-                @Html.ValidationMessageFor(model => model.ProjectID)
-            </div>
-        </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="EmployeeID">Employee Name</label>
+                                            @Html.DropDownList("EmployeeID", null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.EmployeeID)
+                                        </div>
+                                    </div>
+                                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EmployeeID, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("EmployeeID")
-                @Html.ValidationMessageFor(model => model.EmployeeID)
-            </div>
-        </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="AssignmentDate">Assignment Date</label>
+                                            @Html.EditorFor(model => model.AssignmentDate, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.AssignmentDate)
+                                        </div>
+                                    </div>
+                                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.AssignmentDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AssignmentDate, new { @class = "datepicker" })
-                @Html.ValidationMessageFor(model => model.AssignmentDate)
-            </div>
-        </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Remarks">Remarks</label>
+                                            @Html.TextBox("Remarks", null, new { @class = "form-control  ", @placeholder = "Remarks ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(model => model.Remarks)
+                                        </div>
+                                    </div>
+                                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Remarks, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Remarks)
-                @Html.ValidationMessageFor(model => model.Remarks)
-            </div>
-        </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="AddUserID">Add User</label>
+                                            @Html.DropDownList("EmployeeID", null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.EmployeeID)
+                                        </div>
+                                    </div>
+                                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.AddUserID, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AddUserID)
-                @Html.ValidationMessageFor(model => model.AddUserID)
-            </div>
-        </div>
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="AddDate">Add Date</label>
+                                            @Html.EditorFor(model => model.AddDate, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.AddDate)
+                                        </div>
+                                    </div>
+                                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.AddDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AddDate, new { @class = "datepicker" })
-                @Html.ValidationMessageFor(model => model.AddDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ArchiveUserID, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ArchiveUserID)
-                @Html.ValidationMessageFor(model => model.ArchiveUserID)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ArchiveDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ArchiveDate, new { @class = "datepicker" })
-                @Html.ValidationMessageFor(model => model.ArchiveDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                                <div class="container-fluid">
+                                    <div><hr size=2><br /></div>
+                                    <div class="col-sm-4 col-lg-offset-4">
+                                        <div class="form-group">
+                                            <input type="submit" value="Create" class="btn btn-success" />
+                                            &nbsp;&nbsp;
+                                            @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#AddDate').addClass('form-control');
+            $('#AssignmentDate').addClass('form-control');
+        });
+    </script>
 }
- 
+
+
+
+
