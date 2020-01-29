@@ -63,8 +63,10 @@ namespace CloudTrixApp.Controllers
             ViewData["TimesheetIDSortParm"] = sortOrder == "TimesheetID_asc" ? "TimesheetID_desc" : "TimesheetID_asc";
             ViewData["EmployeeIDSortParm"] = sortOrder == "EmployeeID_asc" ? "EmployeeID_desc" : "EmployeeID_asc";
             ViewData["ProjectIDSortParm"] = sortOrder == "ProjectID_asc" ? "ProjectID_desc" : "ProjectID_asc";
+            ViewData["EntryDateSortParm"] = sortOrder == "EntryDate_asc" ? "EntryDate_desc" : "EntryDate_asc";
             ViewData["StartTimeSortParm"] = sortOrder == "StartTime_asc" ? "StartTime_desc" : "StartTime_asc";
             ViewData["EndTimeSortParm"] = sortOrder == "EndTime_asc" ? "EndTime_desc" : "EndTime_asc";
+            ViewData["TotTimeSortParm"] = sortOrder == "TotTime_asc" ? "TotTime_desc" : "TotTime_asc";
             ViewData["RemarksSortParm"] = sortOrder == "Remarks_asc" ? "Remarks_desc" : "Remarks_asc";
 
             dtTimesheet = TimesheetData.SelectAll();
@@ -97,8 +99,10 @@ namespace CloudTrixApp.Controllers
                                    ProjectID = rowProject.Field<Int32>("ProjectID")
                                   ,ProjectName = rowProject.Field<String>("ProjectName")
                             }
+                           ,EntryDate = rowTimesheet.Field<DateTime>("EntryDate")
                            ,StartTime = rowTimesheet.Field<DateTime>("StartTime")
                            ,EndTime = rowTimesheet.Field<DateTime>("EndTime")
+                           ,TotTime = rowTimesheet.Field<String>("TotTime")
                            ,Remarks = rowTimesheet.Field<String>("Remarks")
                         };
 
@@ -122,6 +126,12 @@ namespace CloudTrixApp.Controllers
                 case "ProjectID_asc":
                     Query = Query.OrderBy(s => s.Project.ProjectName);
                     break;
+                case "EntryDate_desc":
+                    Query = Query.OrderByDescending(s => s.EntryDate);
+                    break;
+                case "EntryDate_asc":
+                    Query = Query.OrderBy(s => s.EntryDate);
+                    break;
                 case "StartTime_desc":
                     Query = Query.OrderByDescending(s => s.StartTime);
                     break;
@@ -133,6 +143,12 @@ namespace CloudTrixApp.Controllers
                     break;
                 case "EndTime_asc":
                     Query = Query.OrderBy(s => s.EndTime);
+                    break;
+                case "TotTime_desc":
+                    Query = Query.OrderByDescending(s => s.TotTime);
+                    break;
+                case "TotTime_asc":
+                    Query = Query.OrderBy(s => s.TotTime);
                     break;
                 case "Remarks_desc":
                     Query = Query.OrderByDescending(s => s.Remarks);
@@ -151,8 +167,10 @@ namespace CloudTrixApp.Controllers
                 dt.Columns.Add("Timesheet I D", typeof(string));
                 dt.Columns.Add("Employee I D", typeof(string));
                 dt.Columns.Add("Project I D", typeof(string));
+                dt.Columns.Add("Entry Date", typeof(string));
                 dt.Columns.Add("Start Time", typeof(string));
                 dt.Columns.Add("End Time", typeof(string));
+                dt.Columns.Add("Tot Time", typeof(string));
                 dt.Columns.Add("Remarks", typeof(string));
                 foreach (var item in Query)
                 {
@@ -160,8 +178,10 @@ namespace CloudTrixApp.Controllers
                         item.TimesheetID
                        ,item.Employee.FirstName
                        ,item.Project.ProjectName
+                       ,item.EntryDate
                        ,item.StartTime
                        ,item.EndTime
+                       ,item.TotTime
                        ,item.Remarks
                     );
                 }
@@ -233,8 +253,10 @@ namespace CloudTrixApp.Controllers
         public ActionResult Create([Bind(Include=
 				           "EmployeeID"
 				   + "," + "ProjectID"
+				   + "," + "EntryDate"
 				   + "," + "StartTime"
 				   + "," + "EndTime"
+				   + "," + "TotTime"
 				   + "," + "Remarks"
 				  )] Timesheet Timesheet)
         {
@@ -393,16 +415,20 @@ namespace CloudTrixApp.Controllers
             SelectListItem Item1 = new SelectListItem { Text = "Timesheet I D", Value = "Timesheet I D" };
             SelectListItem Item2 = new SelectListItem { Text = "Employee I D", Value = "Employee I D" };
             SelectListItem Item3 = new SelectListItem { Text = "Project I D", Value = "Project I D" };
-            SelectListItem Item4 = new SelectListItem { Text = "Start Time", Value = "Start Time" };
-            SelectListItem Item5 = new SelectListItem { Text = "End Time", Value = "End Time" };
-            SelectListItem Item6 = new SelectListItem { Text = "Remarks", Value = "Remarks" };
+            SelectListItem Item4 = new SelectListItem { Text = "Entry Date", Value = "Entry Date" };
+            SelectListItem Item5 = new SelectListItem { Text = "Start Time", Value = "Start Time" };
+            SelectListItem Item6 = new SelectListItem { Text = "End Time", Value = "End Time" };
+            SelectListItem Item7 = new SelectListItem { Text = "Tot Time", Value = "Tot Time" };
+            SelectListItem Item8 = new SelectListItem { Text = "Remarks", Value = "Remarks" };
 
                  if (select == "Timesheet I D") { Item1.Selected = true; }
             else if (select == "Employee I D") { Item2.Selected = true; }
             else if (select == "Project I D") { Item3.Selected = true; }
-            else if (select == "Start Time") { Item4.Selected = true; }
-            else if (select == "End Time") { Item5.Selected = true; }
-            else if (select == "Remarks") { Item6.Selected = true; }
+            else if (select == "Entry Date") { Item4.Selected = true; }
+            else if (select == "Start Time") { Item5.Selected = true; }
+            else if (select == "End Time") { Item6.Selected = true; }
+            else if (select == "Tot Time") { Item7.Selected = true; }
+            else if (select == "Remarks") { Item8.Selected = true; }
 
             list.Add(Item1);
             list.Add(Item2);
@@ -410,6 +436,8 @@ namespace CloudTrixApp.Controllers
             list.Add(Item4);
             list.Add(Item5);
             list.Add(Item6);
+            list.Add(Item7);
+            list.Add(Item8);
 
             return list.ToList();
         }

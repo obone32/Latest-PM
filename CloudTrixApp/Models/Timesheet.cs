@@ -24,15 +24,25 @@ namespace CloudTrixApp.Models
 
         [Required]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Entry Date")]
+        public DateTime EntryDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:hh:mm tt}", ApplyFormatInEditMode = true)]
         [Display(Name = "Start Time")]
         public DateTime StartTime { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:hh:mm tt}", ApplyFormatInEditMode = true)]
         [Display(Name = "End Time")]
         public DateTime EndTime { get; set; }
+
+        [StringLength(50)]
+        [Display(Name = "Total Time")]
+        public String TotTime { get; set; }
 
         [Required]
         [StringLength(8000)]

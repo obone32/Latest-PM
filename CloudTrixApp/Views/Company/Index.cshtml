@@ -10,7 +10,7 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-            
+
             <small></small>
         </h1>
         <ol class="breadcrumb">
@@ -66,7 +66,7 @@
                         <hr />
                         <div class="table-responsive">
                             <table class="table">
-                                <tr class="bg-warning">
+                                <tr class="bg-danger">
                                     <th>
                                         @Html.ActionLink("Company Name", "Index", new { sortOrder = ViewData["CompanyNameSortParm"], SearchText = ViewData["SearchText"] })
                                     </th>
@@ -104,18 +104,17 @@
                                             @Html.DisplayFor(modelItem => item.GSTIN)
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Edit", "Edit", new
-                                       {
-                                           CompanyID = item.CompanyID
-                                       }) |
-                                            @Html.ActionLink("Details", "Details", new
-                                       {
-                                           CompanyID = item.CompanyID
-                                       }) |
-                                            @Html.ActionLink("Delete", "Delete", new
-                                       {
-                                           CompanyID = item.CompanyID
-                                       })
+                                            <a href="@Url.Action("Edit", "Company", new {CompanyID = item.CompanyID})" class="label bg-green">
+                                                <i class="fa fa-edit">  Edit</i>
+                                            </a>
+                                             |
+                                            <a href="@Url.Action("Details", "Company", new {CompanyID = item.CompanyID})" class="label bg-yellow">
+                                                <i class="fa fa-info">  Details</i>
+                                            </a>
+                                             |
+                                            <a href="@Url.Action("Delete", "Company", new {CompanyID = item.CompanyID})" class="label bg-red">
+                                                <i class="fa fa-eraser">  Delete</i>
+                                            </a>
                                         </td>
                                     </tr>
                                 }

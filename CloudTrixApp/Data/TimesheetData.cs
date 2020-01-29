@@ -52,6 +52,10 @@ namespace CloudTrixApp.Data
                 selectCommand.Parameters.AddWithValue("@ProjectName", sValue);
             } else {
                 selectCommand.Parameters.AddWithValue("@ProjectName", DBNull.Value); }
+            if (sField == "Entry Date") {
+                selectCommand.Parameters.AddWithValue("@EntryDate", sValue);
+            } else {
+                selectCommand.Parameters.AddWithValue("@EntryDate", DBNull.Value); }
             if (sField == "Start Time") {
                 selectCommand.Parameters.AddWithValue("@StartTime", sValue);
             } else {
@@ -60,6 +64,10 @@ namespace CloudTrixApp.Data
                 selectCommand.Parameters.AddWithValue("@EndTime", sValue);
             } else {
                 selectCommand.Parameters.AddWithValue("@EndTime", DBNull.Value); }
+            if (sField == "Tot Time") {
+                selectCommand.Parameters.AddWithValue("@TotTime", sValue);
+            } else {
+                selectCommand.Parameters.AddWithValue("@TotTime", DBNull.Value); }
             if (sField == "Remarks") {
                 selectCommand.Parameters.AddWithValue("@Remarks", sValue);
             } else {
@@ -103,8 +111,10 @@ namespace CloudTrixApp.Data
                     Timesheet.TimesheetID = System.Convert.ToInt32(reader["TimesheetID"]);
                     Timesheet.EmployeeID = System.Convert.ToInt32(reader["EmployeeID"]);
                     Timesheet.ProjectID = System.Convert.ToInt32(reader["ProjectID"]);
+                    Timesheet.EntryDate = System.Convert.ToDateTime(reader["EntryDate"]);
                     Timesheet.StartTime = System.Convert.ToDateTime(reader["StartTime"]);
                     Timesheet.EndTime = System.Convert.ToDateTime(reader["EndTime"]);
+                    Timesheet.TotTime = reader["TotTime"] is DBNull ? null : reader["TotTime"].ToString();
                     Timesheet.Remarks = System.Convert.ToString(reader["Remarks"]);
                 }
                 else
@@ -132,8 +142,13 @@ namespace CloudTrixApp.Data
             insertCommand.CommandType = CommandType.StoredProcedure;
             insertCommand.Parameters.AddWithValue("@EmployeeID", Timesheet.EmployeeID);
             insertCommand.Parameters.AddWithValue("@ProjectID", Timesheet.ProjectID);
+            insertCommand.Parameters.AddWithValue("@EntryDate", Timesheet.EntryDate);
             insertCommand.Parameters.AddWithValue("@StartTime", Timesheet.StartTime);
             insertCommand.Parameters.AddWithValue("@EndTime", Timesheet.EndTime);
+            if (Timesheet.TotTime != null) {
+                insertCommand.Parameters.AddWithValue("@TotTime", Timesheet.TotTime);
+            } else {
+                insertCommand.Parameters.AddWithValue("@TotTime", DBNull.Value); }
             insertCommand.Parameters.AddWithValue("@Remarks", Timesheet.Remarks);
             insertCommand.Parameters.Add("@ReturnValue", System.Data.SqlDbType.Int);
             insertCommand.Parameters["@ReturnValue"].Direction = ParameterDirection.Output;
@@ -170,14 +185,24 @@ namespace CloudTrixApp.Data
             updateCommand.CommandType = CommandType.StoredProcedure;
             updateCommand.Parameters.AddWithValue("@NewEmployeeID", newTimesheet.EmployeeID);
             updateCommand.Parameters.AddWithValue("@NewProjectID", newTimesheet.ProjectID);
+            updateCommand.Parameters.AddWithValue("@NewEntryDate", newTimesheet.EntryDate);
             updateCommand.Parameters.AddWithValue("@NewStartTime", newTimesheet.StartTime);
             updateCommand.Parameters.AddWithValue("@NewEndTime", newTimesheet.EndTime);
+            if (newTimesheet.TotTime != null) {
+                updateCommand.Parameters.AddWithValue("@NewTotTime", newTimesheet.TotTime);
+            } else {
+                updateCommand.Parameters.AddWithValue("@NewTotTime", DBNull.Value); }
             updateCommand.Parameters.AddWithValue("@NewRemarks", newTimesheet.Remarks);
             updateCommand.Parameters.AddWithValue("@OldTimesheetID", oldTimesheet.TimesheetID);
             updateCommand.Parameters.AddWithValue("@OldEmployeeID", oldTimesheet.EmployeeID);
             updateCommand.Parameters.AddWithValue("@OldProjectID", oldTimesheet.ProjectID);
+            updateCommand.Parameters.AddWithValue("@OldEntryDate", oldTimesheet.EntryDate);
             updateCommand.Parameters.AddWithValue("@OldStartTime", oldTimesheet.StartTime);
             updateCommand.Parameters.AddWithValue("@OldEndTime", oldTimesheet.EndTime);
+            if (oldTimesheet.TotTime != null) {
+                updateCommand.Parameters.AddWithValue("@OldTotTime", oldTimesheet.TotTime);
+            } else {
+                updateCommand.Parameters.AddWithValue("@OldTotTime", DBNull.Value); }
             updateCommand.Parameters.AddWithValue("@OldRemarks", oldTimesheet.Remarks);
             updateCommand.Parameters.Add("@ReturnValue", System.Data.SqlDbType.Int);
             updateCommand.Parameters["@ReturnValue"].Direction = ParameterDirection.Output;
@@ -214,8 +239,13 @@ namespace CloudTrixApp.Data
             deleteCommand.Parameters.AddWithValue("@OldTimesheetID", Timesheet.TimesheetID);
             deleteCommand.Parameters.AddWithValue("@OldEmployeeID", Timesheet.EmployeeID);
             deleteCommand.Parameters.AddWithValue("@OldProjectID", Timesheet.ProjectID);
+            deleteCommand.Parameters.AddWithValue("@OldEntryDate", Timesheet.EntryDate);
             deleteCommand.Parameters.AddWithValue("@OldStartTime", Timesheet.StartTime);
             deleteCommand.Parameters.AddWithValue("@OldEndTime", Timesheet.EndTime);
+            if (Timesheet.TotTime != null) {
+                deleteCommand.Parameters.AddWithValue("@OldTotTime", Timesheet.TotTime);
+            } else {
+                deleteCommand.Parameters.AddWithValue("@OldTotTime", DBNull.Value); }
             deleteCommand.Parameters.AddWithValue("@OldRemarks", Timesheet.Remarks);
             deleteCommand.Parameters.Add("@ReturnValue", System.Data.SqlDbType.Int);
             deleteCommand.Parameters["@ReturnValue"].Direction = ParameterDirection.Output;

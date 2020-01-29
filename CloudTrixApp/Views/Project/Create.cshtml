@@ -91,13 +91,30 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="StartDate"> StartDate : </label>
-                                            @Html.TextBox("StartDate", null, new { @class = "form-control ", @placeholder = "StartDate",@id="datepicker", autocomplete = "off" })
+                                            @Html.TextBox("StartDate", null, new { @class = "form-control ", @placeholder = "StartDate", @Value = @DateTime.Now.ToString("dd-MMM-yyyy"), autocomplete = "off" })
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="EndDate"> EndDate :</label>
-                                            @Html.TextBox("EndDate", null, new { @class = "form-control ", @placeholder = "EndDate ", @id="datepicker1", @autocomplete = "off" })
+                                           @Html.EditorFor(model => model.EndDate, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="AddUserID">Add User</label>
+                                            @Html.TextBox("AddUserID", null, new { @class = "form-control  ", @placeholder = "Created By ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(model => model.AddUserID)
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="AddDate">Add Date</label>
+                                            @Html.EditorFor(model => model.AddDate, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.AddDate)
                                         </div>
                                     </div>
                                 </div>
@@ -124,8 +141,8 @@
         @Scripts.Render("~/bundles/jqueryval")
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#datepicker").datepicker({});
-        $("#datepicker1").datepicker({});
+        $('#EndDate').addClass('form-control');
+        $('#AddDate').addClass('form-control');
     });
 </script>
     }
