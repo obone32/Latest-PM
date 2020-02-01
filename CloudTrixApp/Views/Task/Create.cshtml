@@ -38,7 +38,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="CreationDate">Creation Date</label>
-                                            @Html.EditorFor(model => model.CreationDate, new { @class = "form-control" })
+                                            @Html.TextBoxFor(model => model.CreationDate, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.CreationDate)
                                         </div>
                                     </div>
@@ -84,9 +84,14 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
 <script type="text/javascript">
   $(document).ready(function () {
       $('#CreationDate').addClass('form-control');
+      $("#CreationDate").datepicker({
+          format: 'dd/mm/yyyy',
+          startDate: '0y'
+      });
   });
 </script>
 }

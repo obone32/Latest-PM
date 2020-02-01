@@ -4546,6 +4546,7 @@
     <Content Include="Scripts\AppJquery\DateTimePicker\bootstrap-datepicker.min.css" />
     <Content Include="Scripts\AppJquery\DateTimePicker\bootstrap-timepicker.min.css" />
     <Content Include="Scripts\AppJquery\DateTimePicker\bootstrap-timepicker.min.js" />
+    <Content Include="Scripts\AppJquery\DateTimePicker\jquery.timepicker.min.css" />
     <Content Include="Scripts\AppJquery\InvoiceJQ.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

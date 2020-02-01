@@ -4,8 +4,6 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Styles.Render("~/Content /css")
-
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
@@ -39,14 +37,14 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="EmployeeID">Employee Name</label>
-                                            @Html.DropDownList("EmployeeID", null, new { @class = "form-control" , @style = "width : 300px" })
+                                            @Html.DropDownList("EmployeeID", null, new { @class = "form-control", @style = "width : 300px" })
                                             @Html.ValidationMessageFor(model => model.EmployeeID)
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="ProjectID">Project Name</label>
-                                            @Html.DropDownList("ProjectID", null, new { @class = "form-control" , @style = "width : 300px" })
+                                            @Html.DropDownList("ProjectID", null, new { @class = "form-control", @style = "width : 300px" })
                                             @Html.ValidationMessageFor(model => model.ProjectID)
                                         </div>
                                     </div>
@@ -65,27 +63,27 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="StartTime">Start Time</label>
-                                            @Html.TextBox("StartTime", null, new { @class = "form-control timepicker ", @id = "StartTime", @placeholder = "Select Start Time ", autocomplete = "off" })
+                                            @Html.TextBox("StartTime", null, new { @class = "form-control timepicker", @style = "width : 150px", @id = "StartTime", @placeholder = "Select Start Time ", autocomplete = "off" })
                                             @Html.ValidationMessageFor(model => model.StartTime)
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="EndTime">End Time</label>
-                                            @Html.TextBox("EndTime", null, new { @class = "form-control timepicker", @id = "EndTime", @placeholder = "Select End Time ", autocomplete = "off" })
+                                            @Html.TextBox("EndTime", null, new { @class = "form-control", @style = "width : 150px", @id = "EndTime", @placeholder = "Select End Time ", autocomplete = "off" })
                                             @Html.ValidationMessageFor(model => model.EndTime)
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="TotTime">Total Time</label>
-                                            @Html.TextBox("TotTime", null, new { @class = "form-control", @id = "TotTime", @placeholder = "Total Time ", autocomplete = "off", @readonly = "readonly" })
+                                            @Html.TextBox("TotTime", null, new { @class = "form-control", @style = "width : 150px", @id = "TotTime", @placeholder = "Total Time ", autocomplete = "off", @readonly = "readonly" })
                                             @Html.ValidationMessageFor(model => model.TotTime)
                                         </div>
                                     </div>
                                 </div>
-                              
-                                  <div class="container-fluid">
+
+                                <div class="container-fluid">
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label for="Remarks">Remarks</label>
@@ -107,20 +105,18 @@
                                 </div>
                             </div>
                         }
-                                </div>
-                            </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<link href="~/Content/jquery.timepicker.min.css" rel="stylesheet" />
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/lib")
-    <script src="~/Scripts/jquery.timepicker.min.js"></script>
+ 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#StartTime").timepicker();
+            $('#StartTime').timepicker();
             $("#EndTime").timepicker();
             $("#StartTime").change(function () {
                 var sTime = $("#StartTime").val();
@@ -161,6 +157,6 @@
                     $("#StartTime").focus();
                 }
             });
-            });
+        });
     </script>
 }

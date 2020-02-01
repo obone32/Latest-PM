@@ -4,6 +4,7 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@Styles.Render("~/Content/css")
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
@@ -57,7 +58,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="AssignmentDate">Assignment Date</label>
-                                            @Html.EditorFor(model => model.AssignmentDate, new { @class = "form-control" })
+                                            @Html.TextBoxFor(model => model.AssignmentDate, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.AssignmentDate)
                                         </div>
                                     </div>
@@ -87,7 +88,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="AddDate">Add Date</label>
-                                            @Html.EditorFor(model => model.AddDate, new { @class = "form-control" })
+                                            @Html.TextBoxFor(model => model.AddDate, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.AddDate)
                                         </div>
                                     </div>
@@ -113,10 +114,19 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
     <script type="text/javascript">
         $(document).ready(function () {
             $('#AddDate').addClass('form-control');
+            $("#AddDate").datepicker({
+                format: 'dd/mm/yyyy',
+                startDate: '0y'
+            });
             $('#AssignmentDate').addClass('form-control');
+            $("#AssignmentDate").datepicker({
+                format: 'dd/mm/yyyy',
+                startDate: '0y'
+            });
         });
     </script>
 }

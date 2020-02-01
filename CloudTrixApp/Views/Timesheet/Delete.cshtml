@@ -3,59 +3,110 @@
 @{
     ViewBag.Title = "Delete";
 }
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
 
-<h2>Delete</h2>
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Time Sheet</a></li>
+            <li class="active">Delete Time Sheet</li>
+        </ol>
+    </section>
+    <div class="wraper container-fluid ">
+        <div class="row">
+            <div class="col col-md-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Delete Time Sheet </h3>
+                    </div>
+                    <div class="panel-body">
+                        <br />
+                        <p class="callout callout-danger">&nbsp;&nbsp; Do you want to delete this Task Assignment?</p>
+                        <hr />
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.TimesheetID)
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Timesheet</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        @Html.HiddenFor(model => model.TimesheetID)
+                        <div class="container-fluid">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="EmployeeID">Employee Name</label>
+                                    @Html.TextBoxFor(x => x.Employee.FirstName, new { @class = "form-control  ", @style = "width : 300px", @disabled = "on" })
+                                    @Html.ValidationMessageFor(model => model.EmployeeID)
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="ProjectID">Project Name</label>
+                                    @Html.TextBoxFor(x => x.Project.ProjectName, new { @class = "form-control  ", @style = "width : 300px", @disabled = "on" })
+                                    @Html.ValidationMessageFor(model => model.ProjectID)
+                                </div>
+                            </div>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EmployeeID)
-        </dt>
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="Date">Entry Date :</label>
+                                    @Html.TextBox("EntryDate", null, new { @class = "form-control ", @style = "width : 200px", @placeholder = "Select Entry Date ", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Employee.FirstName)
-        </dd>
+                        <div class="container-fluid">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="StartTime">Start Time</label>
+                                    @Html.TextBox("StartTime", null, new { @class = "form-control timepicker", @style = "width : 175px", @id = "StartTime", @placeholder = "Select Start Time ", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.StartTime)
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="EndTime">End Time</label>
+                                    @Html.TextBox("EndTime", null, new { @class = "form-control", @style = "width : 175px", @id = "EndTime", @placeholder = "Select End Time ", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.EndTime)
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="TotTime">Total Time</label>
+                                    @Html.TextBox("TotTime", null, new { @class = "form-control", @style = "width : 175px", @id = "TotTime", @placeholder = "Total Time ", autocomplete = "off", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.TotTime)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="Remarks">Remarks</label>
+                                    @Html.TextArea("Remarks", new { @class = "form-control", @rows = "2", @placeholder = "Enter Remarks Details", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.Remarks)
+                                </div>
+                            </div>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ProjectID)
-        </dt>
+                        <div class="container-fluid">
+                            <div><hr size=2><br /></div>
+                            <div class="col-sm-4 col-lg-offset-4">
+                                <div class="form-group">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
 
-        <dd>
-            @Html.DisplayFor(model => model.Project.ProjectName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartTime)
-        <dt>
-            @Html.DisplayNameFor(model => model.EndTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndTime)
-        <dt>
-            @Html.DisplayNameFor(model => model.Remarks)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Remarks)
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+                                        <div class="form-actions no-color">
+                                            <input type="submit" value="Delete" class="btn btn-danger" />
+                                            @Html.ActionLink("Back to List", "Index", null, null, new { @class = "btn btn-primary" })
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    }
+    </div>
 </div>
- 

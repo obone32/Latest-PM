@@ -37,7 +37,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="AssignmentDate">Assignment Date</label>
-                                            @Html.EditorFor(model => model.AssignmentDate, new { @class = "form-control" })
+                                            @Html.TextBoxFor(model => model.AssignmentDate, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.AssignmentDate)
                                         </div>
                                     </div>
@@ -46,7 +46,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="TaskName">Task Name</label>
-                                            @Html.DropDownList("TaskID",null, new { @class = "form-control" })
+                                            @Html.DropDownList("TaskID", null, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.TaskID)
                                         </div>
                                     </div>
@@ -71,7 +71,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="container-fluid">
                                     <div><hr size=2><br /></div>
                                     <div class="col-sm-4 col-lg-offset-4">
@@ -92,10 +92,17 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+
     <script type="text/javascript">
-  $(document).ready(function () {
-      $('#AssignmentDate').addClass('form-control');
-  });
+        $(document).ready(function () {
+            $('#AssignmentDate').addClass('form-control');
+            $('#AssignmentDate').addClass('form-control');
+            $("#AssignmentDate").datepicker({
+                format: 'dd/mm/yyyy',
+                startDate: '0y'
+            });
+        });
     </script>
 }
 
