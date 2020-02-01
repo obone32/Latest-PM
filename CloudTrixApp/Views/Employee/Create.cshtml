@@ -72,7 +72,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="DOJ"> Date of Joining : </label>
-                                            @Html.TextBox("DOJ", @DateTime.Now.ToString(), new { @class = "form-control datepicker ", @placeholder = "Enter Date of Joining " })
+                                            @Html.TextBox("DOJ", @DateTime.Now.ToString(), new { @class = "form-control datepicker ",@id= "DOJ", @placeholder = "Enter Date of Joining " })
                                             @Html.ValidationMessageFor(model => model.DOJ)
                                         </div>
                                     </div>
@@ -131,18 +131,21 @@
                                         <div class="form-group">
                                             <label for="CompanyID">Company</label>
                                             @Html.DropDownList("CompanyID", null, new { @class = "form-control  ", @placeholder = "Company Name ", autocomplete = "off" })
+                                        @Html.ValidationMessageFor(model => model.CompanyID)
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="AddUserID">Added by</label>
                                             @Html.TextBox("AddUserID", null, new { @class = "form-control  ", @placeholder = "Added by ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(model => model.CompanyID)
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="AddDate">Created Date</label>
-                                            @Html.TextBox("AddDate", null, new { @class = "form-control  datepicker", @placeholder = "Created Date ", autocomplete = "off" })
+                                            @Html.TextBox("AddDate", null, new { @class = "form-control  datepicker",@id= "AddDate", @placeholder = "Created Date ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(model => model.AddDate)
                                         </div>
                                     </div>
                                 </div>
@@ -152,13 +155,15 @@
                                         <div class="form-group">
                                             <label for="UserName">UserName</label>
                                             @Html.TextBox("UserName", null, new { @class = "form-control  ", @placeholder = " Enter UserName ", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(model => model.UserName)
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="Password">Password</label>
                                             @Html.TextBox("Password", null, new { @class = "form-control  ", @placeholder = "Enter Password ", autocomplete = "off" })
-                                        </div>
+                                            @Html.ValidationMessageFor(model => model.Password)
+                                         </div>
                                     </div>
                                 </div>
 

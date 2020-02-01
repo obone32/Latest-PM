@@ -13,7 +13,7 @@ namespace CloudTrixApp
             string lte = "~/Scripts/adminlte/";
 
             bundles.Add(new ScriptBundle("~/bundles/jquery")
-                .Include(ltecomponents + "jquery/dist/jquery.min.js"));
+                .Include(ltecomponents + "jquery/dist/jquery-3.4.1.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/lib")
                 .Include(ltecomponents + "jquery-ui/jquery-ui.min.js")
